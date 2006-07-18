@@ -55,6 +55,8 @@
 \alias{toRGB,Image2D-method}
 \alias{toRGB,Image3D-method}
 \alias{write.image,Image2D,character-method}
+\alias{updateEBImage}
+\alias{updateEBImageDev}
 
 \title{
     Internals
