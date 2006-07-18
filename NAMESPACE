@@ -9,7 +9,8 @@ export(
 
     "read.image", "ping.image",
 
-    "objectCount"
+    "objectCount",
+    "upgradeEBImage", "upgradeEBImageDev"
 )
 exportClasses(
     "array", "Image2D", "Image3D"
