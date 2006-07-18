@@ -17,10 +17,10 @@ updateEBImage <- function() {
 
 cat("\nWARNING: EBImage API has changed in the development release 1.3.x\n\nIt is strongly recommended to update EBImage\n\nCall 'updateEBImageDev()' to upgrade to the latest development version\nor download it from http://www.bioconductor.org/packages/1.9/bioc/\n\nCall 'updateEBImage()' to upgrade to the latest STABLE version\nor download it from http://www.ebi.ac.uk/~osklyar/projects/EBImage/\n\n")
 
-cat("Do you want to upgrade to dev version now [yes/no], default = 'no'? ")
+cat("Do you want to upgrade to the stable version now [yes/no], default = 'no'? ")
 up <- readline()
 if (tolower(up) == "yes")
-    upgradeEBImage()
+    updateEBImage()
 }
 
 # shortcut to call library functions for EBImage
