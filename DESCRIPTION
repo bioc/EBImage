@@ -1,12 +1,12 @@
 Package: EBImage
-Version: 1.2.1
-Date: 18 Jul 2006
+Version: 1.2.2
+Date: 19 Jul 2006
 Title: EBImage: R image processing toolkit
 Author: Oleg Sklyar <osklyar@ebi.ac.uk>, Wolfgang Huber <huber@ebi.ac.uk>
 Maintainer: Oleg Sklyar <osklyar@ebi.ac.uk>
 Depends: R (>= 2.0.0)
 Description: please use version 1.3.101 available from BioC SVN under revision 18870 or from the package URL below, or use the latest development version from BioC1.9 instead (http://www.bioconductor.org/packages/1.9/bioc/): API has changed!!!
-License: LPGL
+License: LGPL
 URL: http://www.ebi.ac.uk/~osklyar/projects/EBImage/
 SaveImage: yes
 biocViews: Visualization
