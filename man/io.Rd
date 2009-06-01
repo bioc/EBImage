@@ -26,7 +26,7 @@
 }
 
 \value{
-  For \code{readImage}, a new instance of \code{\linkS4class{Image}}.
+  \code{readImage} returns a new \code{Image} object.
   \code{writeImage} returns \code{invisible(files)}.
 }
 
@@ -58,19 +58,24 @@
 
 \examples{
    ## Reads and display images
-   f = system.file("images", "nuclei.tif", package="EBImage")
+   f = system.file("images", "lena-color.png", package="EBImage")
    x = readImage(f)
-   if(interactive()) display(x)
-   im = readImage("http://www.google.com/intl/en/images/logo.gif")
-   if(interactive()) display(im)
+   if (interactive()) display(x)
+
+   x = readImage(system.file("images", "nuclei.tif", package="EBImage"))
+   if (interactive()) display(x)
+   
+   try({
+     im = readImage("http://www.google.com/intl/en/images/logo.gif")
+     if (interactive()) display(im)
+   })
 
    ## Converts a TIFF file into JPEG
    f1 = system.file("images", "lena-color.png", package="EBImage")
    x1 = readImage(f1)
-   if (interactive()) display(x1)
    f2 = paste(tempfile(), "jpeg", sep=".")
    writeImage(x1, f2)
-   cat("Converted '",f1,"' into '",f2,"'.\n",sep='')
+   cat("Converted '", f1, "' into '", f2, "'.\n", sep='')
 }
 
 
