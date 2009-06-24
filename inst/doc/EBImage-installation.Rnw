@@ -42,7 +42,7 @@ Please note that the development versions (with C header and libraries) of
 
 Check if \pkg{gtk+-2.0} works by typing in a terminal \code{gtk-demo}. Check if 
 \pkg{ImageMagick} works by typing \code{convert -version}. Check if the libraries are correctly
-installed by typing \code{pkg-config gtk+-2.0 --libs} and \code{MagickCore-config --libs}.
+installed by typing \code{pkg-config gtk+-2.0 --libs} and \code{Magick-config --libs}.
 You should see some output without error messages.\\
 
 EBImage is ready to be installed. Just type \code{biocLite("EBImage")} in an R terminal
@@ -73,7 +73,7 @@ dependency of \pkg{gtk+-2.0}.\\
 
 Check if \pkg{gtk+-2.0} works by typing in a terminal \code{gtk-demo}. Check if 
 \pkg{ImageMagick} works by typing \code{convert -version}. Check if the libraries are correctly
-installed by typing \code{pkg-config gtk+-2.0 --libs} and \code{MagickCore-config --libs}.
+installed by typing \code{pkg-config gtk+-2.0 --libs} and \code{Magick-config --libs}.
 You should see some output, without error messages, and notice that all libraries are located in 
 \code{/opt/local/lib}. \\
 
