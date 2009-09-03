@@ -19,7 +19,7 @@ Algorithm and implementation are from Jones et al. [1].
 }
 
 \usage{
-  propagate(x, seeds, mask=NULL, lambda=1e-4, ext=1, seed.centers)
+  propagate(x, seeds, mask=NULL, lambda=1e-4, ext, seed.centers)
 }
 
 \arguments{
@@ -36,8 +36,7 @@ Algorithm and implementation are from Jones et al. [1].
    metric, determining the trade-off between the Euclidian distance in the
    image plane and the contribution of the gradient of \code{x}. See details.}
 
-  \item{ext}{Radius in pixels of the neighborhood to estimate image
-    gradient, e.g. ext=1 means a 3x3 neighborhood.}
+  \item{ext}{Deprecated.}
 
   \item{seed.centers}{Deprecated.}
 }
@@ -62,35 +61,45 @@ Algorithm and implementation are from Jones et al. [1].
   gradient of the image.
 
   To avoid to rely too much on single noisy pixels, the gradient is
-  calculated on a neighborhood of \code{ext} pixels. 
+  computed on a neighborhood of 3x3 pixels.
+
+  Segmentation of the Voronoi regions in the vicinity of flat areas
+  (having a null gradient) with small values of \code{lambda} can
+  suffer from artefacts coming from the metric approximation.
 }
 
 \seealso{ \code{\link{bwlabel}}, \code{\link{watershed}}
 }
 
 \examples{
-  ## load images
-  nuc = readImage(system.file('images', 'nuclei.tif', package='EBImage'))
-  cel = readImage(system.file('images', 'cells.tif', package='EBImage'))
-  img = rgbImage(green=1.5*cel, blue=nuc)
-  if (interactive()) display(img, title='Cells')
+## a paraboloid mountain in a plane
+n = 400
+x = (n/4)^2 - matrix(
+       (rep(1:n, times=n) - n/2)^2 + (rep(1:n, each=n) - n/2)^2,
+       nrow=n, ncol=n)
+x = normalize(x)
 
-  ## segment nuclei
-  nmask = thresh(nuc, 10, 10, 0.05)
-  nmask = opening(nmask, makeBrush(5, shape='disc'))
-  nmask = fillHull(nmask)
-  nmask = bwlabel(nmask)
-  if (interactive()) display(normalize(nmask), title='Cell nuclei mask')
+## 4 seeds
+seeds = array(0, dim=c(n,n))
+seeds[51:55, 301:305] = 1
+seeds[301:305, 101:105] = 2
+seeds[201:205, 141:145] = 3
+seeds[331:335, 351:355] = 4
 
-  ## segment cells, using propagate and nuclei as 'seeds'
-  ctmask = opening(cel>0.1, makeBrush(5, shape='disc'))
-  cmask = propagate(cel, nmask, ctmask)
-  if (interactive()) display(normalize(cmask), title='Cell mask')
+lambda = 10^seq(-8, -1, by=1)
+segmented = Image(dim=c(dim(x), length(lambda)))
 
-  ## segmentation results
-  res = paintObjects(cmask, img, col='#ff00ff')
-  res = paintObjects(nmask, res, col='#ffff00')
-  if (interactive()) display(res, title='Segmented cells')
+for(i in seq(along=lambda)) {
+  prop = propagate(x, seeds, lambda=lambda[i])
+  prop = prop/max(prop)
+  segmented[,,i] = prop
+}
+
+if(interactive()){
+  display(x, title='Image')
+  display(seeds/max(seeds), title='Seeds')
+  display(segmented, title="Voronoi regions")
+}
 
 }
 
@@ -98,8 +107,7 @@ Algorithm and implementation are from Jones et al. [1].
   Original CellProfiler code: Anne Carpenter <carpenter@wi.mit.edu>,
   Thouis Jones <thouis@csail.mit.edu>, In Han Kang <inthek@mit.edu>.
 
-  Port for this package: Oleg Sklyar <osklyar@ebi.ac.uk> and Wolfgang Huber
-  <huber@ebi.ac.uk>.
+  Port for this package: Oleg Sklyar, Gregoire Pau, Wolfgang Huber
 }
 
 \section{License}{
@@ -109,16 +117,16 @@ Algorithm and implementation are from Jones et al. [1].
 }
 
 \references{
-    \code{[1]} T. Jones, A. Carpenter and P. Golland,
+   [1] T. Jones, A. Carpenter and P. Golland,
     "Voronoi-Based Segmentation of Cells on Image Manifolds",
     CVBIA05 (535-543), 2005
 
-    \code{[2]} A. Carpenter, T.R. Jones, M.R. Lamprecht, C. Clarke, I.H. Kang,
+   [2] A. Carpenter, T.R. Jones, M.R. Lamprecht, C. Clarke, I.H. Kang,
     O. Friman, D. Guertin, J.H. Chang, R.A. Lindquist, J. Moffat,
     P. Golland and D.M. Sabatini, "CellProfiler: image analysis software
     for identifying and quantifying cell phenotypes", Genome Biology 2006, 7:R100
 
-    \code{[3]} CellProfiler: http://www.cellprofiler.org
+   [3] CellProfiler: http://www.cellprofiler.org
 }
 
 
