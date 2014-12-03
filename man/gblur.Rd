@@ -39,10 +39,10 @@ The Gaussian filter is created with the function \code{makeBrush}.
 }
 
 \examples{
-  x = readImage(system.file("images", "lena.png", package="EBImage"))
-  if (interactive()) display(x)
+  x = readImage(system.file("images", "sample.png", package="EBImage"))
+  display(x)
 
   y = gblur(x, sigma=8)
-  if (interactive()) display(y, title='gblur(x, sigma=8)')
+  display(y, title='gblur(x, sigma=8)')
 }
 

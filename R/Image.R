@@ -97,12 +97,11 @@ Image = function(data = array(0, dim=c(1,1)), dim, colormode) {
 is.Image <- function (x) is(x, "Image")
 
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-as.Image = function(x) {
-  if(is.Image(x))
-    x
-  else
-    Image(x)
-}
+as.Image <- function(x) UseMethod("as.Image")
+
+as.Image.Image = function(x) x
+
+as.Image.default = function(x) Image(x)
 
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ## define method for the S3 generic 'as.array'
@@ -178,6 +177,14 @@ setMethod("Ops", signature(e1="numeric", e2="Image"),
           validObject(e2)
           return(e2)
 	}
+)
+
+## legacy code addressing broken 'Math2' S4GroupGenerics in R 3.1.2
+setMethod("Math2", "Image",
+          function(x, digits) {
+            x@.Data <- callGeneric(x = x@.Data, digits = digits)
+            x
+          }
 )
 
 ## private
@@ -376,7 +383,7 @@ writeImage = function (x, files, type, quality=100L, bits.per.sample, compressio
   if ((quality<1L) || (quality>100L))
     stop("'quality' must be a value between 1 and 100.")
   
-  nf = numberOfFrames(x, type='render')
+  nf = .numberOfFrames(x, type='render')
   lf = length(files)
   colormode = colorMode(x)
   
@@ -487,18 +494,18 @@ getFrame = function(y, i, type = c('total', 'render')) .getFrame(y, i, match.arg
   if (i<1 || i>n) stop("'i' must belong between 1 and ", n)
   
   ## frame dimensions
-  len = length( (d = dim(y)) )
-  fdim = if (colormode==Color && type=='render' && len>2L) 3L else 2L
-  if (len==fdim) return(y)
+  ld = length( (d = dim(y)) )
+  fd = if (colormode==Color && type=='render' && ld>2L) 3L else 2L
+  if (ld==fd) return(y)
   
   # preserve spatial dimensions
   # for Image class this is already taken care by the "]" method itself ..
-  x = asub(y, as.list(ind2sub(i, d[-seq_len(fdim)])), (fdim+1):len, drop = is(y, 'Image'))
+  x = asub(y, as.list(ind2sub(i, d[-seq_len(fd)])), (fd+1):ld, drop = is(y, 'Image'))
   
   # .. we only need to take care of plain arrays
-  if(length( (d = dim(x)) ) > fdim){
+  if(length( (d = dim(x)) ) > fd){
     dims = which(d==1L)
-    x = adrop(x, drop = dims[dims>fdim]) 
+    x = adrop(x, drop = dims[dims>fd]) 
   }
   
   return(x)
@@ -649,11 +656,11 @@ toRGB = function(x) {
   channel(x, "rgb")
 }
 
-## GP: Useful ?
 ## - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setMethod ("hist", signature(x="Image"),
-  function (x, breaks=64L, main=paste("Image histogram:", length(x), "pixels"), xlab="Intensity", ...) {
-
+  function (x, breaks=64L, rg=range(x, na.rm=TRUE), main=paste("Image histogram:", length(x), "pixels"), xlab="Intensity", ...) {
+    if ( !is.numeric(rg) || length(rg) != 2 ) stop("'range' must be a numeric vector of length 2.")
+    
     if ( colorMode(x) != Grayscale ) {
       colores = c("red", "green", "blue")
       y = lapply(colores, function(m) imageData(channel(x, m)))
@@ -662,17 +669,18 @@ setMethod ("hist", signature(x="Image"),
       y = list(black=imageData(x))
     }
 
-    rg = range(unlist(y), na.rm=TRUE)
     if(length(breaks)==1L) {
-      dr = (rg[2]-rg[1])/(breaks*2L+2L)
-      breaks = seq(rg[1]-dr, rg[2]+dr, length=breaks+1L)
+      bins = breaks
+      breaks = seq(rg[1], rg[2], length=breaks+1L)
+    } else {
+      bins = length(breaks) - 1L
     }
-
-    h = lapply(y, hist, breaks=breaks, plot=FALSE)
-    px = sapply(h, "[[", "breaks")[-1L,,drop=FALSE]
-    matplot(x = px + dr*(col(px)-ncol(px)/2)/2,
-            y = sapply(h, "[[", "counts"), type="s", lty=1L,
-            main=main, xlab=xlab, col=names(y), ylab="counts", ...)
+    
+    h = lapply(y, hist.default, breaks=breaks, plot=FALSE)
+    xx = vapply(h, "[[", vector(mode = "double", length = bins+1L), "breaks")
+    yy = vapply(h, "[[", vector(mode = "integer", length = bins), "counts")
+    yy = rbind(yy, yy[bins,])
+    matplot(xx, yy, type="s", lty=1L, main=main, xlab=xlab, col=names(y), ylab="counts", ...)
   }
 )
 
@@ -682,12 +690,14 @@ combineImages = function (x, y, ...) {
   dy = dim(y)
   
   if ( dx[1] != dy[1] || dx[2] != dy[2] ) stop("images must have the same 2D frame size to be combined")
+  if ( colorMode(x) != colorMode(y) ) stop("images must have the same color mode to be combined")
   
   ## merging along position guided by colorMode
-  along = if (colorMode(x)==Color && colorMode(y)==Color) 4 else 3
+  colormode = colorMode(x)
+  along = if (colormode == Color) 4L else 3L
   
   ## add extra dimension in case of single frame Color Images
-  if (along == 4) {
+  if (along == 4L) {
     if(colorMode(x)==Color && length(dx)==2) dim(x) = c(dx, 1)
     if(colorMode(y)==Color && length(dy)==2) dim(y) = c(dy, 1)
   }

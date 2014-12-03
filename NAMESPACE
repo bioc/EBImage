@@ -23,6 +23,8 @@ export(getFrame, numberOfFrames)
 S3method(as.array, Image)
 S3method(as.raster, Image)
 S3method(print, Image)
+S3method(as.Image, Image)
+S3method(as.Image, default)
 
 ## image IO, display
 exportMethods(show)
@@ -51,6 +53,7 @@ exportMethods(hist)
 export(filter2)
 export(gblur)
 export(medianFilter)
+export(equalize)
 
 ## morphological operations
 export(makeBrush)
@@ -78,7 +81,7 @@ export(localCurvature)
 export(getNumberOfFrames)
 
 ## defunct
-export(blur, equalize)
+export(blur)
 export(drawtext, drawfont)
 export(getFeatures, hullFeatures, zernikeMoments)
 export(edgeProfile, edgeFeatures)
@@ -87,3 +90,7 @@ export(moments, cmoments, smoments, rmoments)
 
 ## methods extending S4 generics from the BiocGenerics package
 exportMethods(normalize, combine)
+
+## legacy code because of broken R 3.1.2
+importFrom("methods", "Math2")
+exportMethods(Math2)
