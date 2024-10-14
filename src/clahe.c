@@ -16,7 +16,7 @@ SEXP clahe (SEXP x, SEXP _uiNrX, SEXP _uiNrY, SEXP _uiNrBins, SEXP _fCliplimit, 
   
   double maxPixelValue = uiNR_OF_GREY-1;
   
-  PROTECT( res = allocVector(REALSXP, XLENGTH(x)) );
+  PROTECT( res = Rf_allocVector(REALSXP, XLENGTH(x)) );
   DUPLICATE_ATTRIB(res, x);
   
   nx = INTEGER(GET_DIM(x))[0];
@@ -65,28 +65,28 @@ SEXP clahe (SEXP x, SEXP _uiNrX, SEXP _uiNrY, SEXP _uiNrBins, SEXP _fCliplimit, 
     // translate internal error codes
     switch (val) {
     case -1:
-      error("# of regions x-direction too large");
+      Rf_error("# of regions x-direction too large");
       break;
     case -2:
-      error("# of regions y-direction too large");
+      Rf_error("# of regions y-direction too large");
       break;
     case -3:
-      error("x-resolution no multiple of 'nx'");
+      Rf_error("x-resolution no multiple of 'nx'");
       break;
     case -4:
-      error("y-resolution no multiple of 'ny'");
+      Rf_error("y-resolution no multiple of 'ny'");
       break;
     case -5:
-      error("maximum too large");
+      Rf_error("maximum too large");
       break;
     case -6:
-      error("minimum equal or larger than maximum");
+      Rf_error("minimum equal or larger than maximum");
       break;
     case -7:
-      error("at least 4 contextual regions required");
+      Rf_error("at least 4 contextual regions required");
       break;
     case -8:
-      error("not enough memory! (try reducing 'bins')");
+      Rf_error("not enough memory! (try reducing 'bins')");
       break;
     }
     

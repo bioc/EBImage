@@ -34,9 +34,9 @@ floodFill(SEXP x, SEXP _pts, SEXP _col, SEXP _tol) {
   nc = getNumberOfChannels(x, COLOR_MODE(x));
   dim = INTEGER(GET_DIM(x));
   XYPoint size(dim[0], dim[1]);
-  if (size.x <= 0 || size.y <= 0) error("image must have positive dimensions");
-  if (LENGTH(_pts) != nf) error("length of points list must match the number of 'render' frames");
-  if (LENGTH(_col) != nf) error("length of color list must match the number of 'render' frames");
+  if (size.x <= 0 || size.y <= 0) Rf_error("image must have positive dimensions");
+  if (LENGTH(_pts) != nf) Rf_error("length of points list must match the number of 'render' frames");
+  if (LENGTH(_col) != nf) Rf_error("length of color list must match the number of 'render' frames");
   
   // initialize result
   PROTECT(res = Rf_duplicate(x));
@@ -116,10 +116,10 @@ bwlabel(SEXP x) {
   nz = getNumberOfFrames(x, 0);
   dim = INTEGER(GET_DIM(x));
   XYPoint size(dim[0], dim[1]);
-  if (size.x <= 0 || size.y <= 0) error("image must have positive dimensions");
+  if (size.x <= 0 || size.y <= 0) Rf_error("image must have positive dimensions");
   
   // store results as integers
-  PROTECT( res = allocVector(INTSXP, XLENGTH(x)) );
+  PROTECT( res = Rf_allocVector(INTSXP, XLENGTH(x)) );
   DUPLICATE_ATTRIB(res, x);
   
   sizexy = size.x*size.y;

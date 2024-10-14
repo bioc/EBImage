@@ -32,7 +32,7 @@ paintObjects (SEXP x, SEXP ref, SEXP _opac, SEXP _col, SEXP _thick) {
     col = REAL(_col);
     thick = LOGICAL(_thick)[0];
 
-    PROTECT( res = allocVector(REALSXP, XLENGTH(ref)) );
+    PROTECT( res = Rf_allocVector(REALSXP, XLENGTH(ref)) );
     DUPLICATE_ATTRIB(res, ref);
     
     src = REAL(ref);
@@ -123,7 +123,7 @@ rmObjects (SEXP x, SEXP _index, SEXP _reenum) {
     
     reenum = LOGICAL(_reenum)[0];
     
-    PROTECT( res = allocVector(INTSXP, XLENGTH(x)) );
+    PROTECT( res = Rf_allocVector(INTSXP, XLENGTH(x)) );
     DUPLICATE_ATTRIB(res, x);
   
     sizexy = nx * ny;
@@ -178,7 +178,7 @@ rmObjects (SEXP x, SEXP _index, SEXP _reenum) {
             tgt[i] = ( val > 0 ) ? indexes[val] : val; // support NA's
         }
         
-        Free (indexes);
+        R_Free (indexes);
     }
 
     UNPROTECT (1);
@@ -210,7 +210,7 @@ stackObjects (SEXP obj, SEXP ref, SEXP _bgcol, SEXP xy_list, SEXP extension) {
   if (nbChannels>3) nbChannels = 3;
 
   if (nz > 1) {
-    PROTECT(res = allocVector(VECSXP, nz));
+    PROTECT(res = Rf_allocVector(VECSXP, nz));
     nprotect++;
   }
   
@@ -225,7 +225,7 @@ stackObjects (SEXP obj, SEXP ref, SEXP _bgcol, SEXP xy_list, SEXP extension) {
 
     if (nobj>0) {
       // create stack
-      PROTECT(img = allocVector(REALSXP, nobj * snx * sny * nbChannels));
+      PROTECT(img = Rf_allocVector(REALSXP, nobj * snx * sny * nbChannels));
       nprotect++;
       DUPLICATE_ATTRIB(img, ref);
       
@@ -240,14 +240,14 @@ stackObjects (SEXP obj, SEXP ref, SEXP _bgcol, SEXP xy_list, SEXP extension) {
       }
       
       if (mode==MODE_GRAYSCALE) {
-      	PROTECT (dim = allocVector( INTSXP, 3 ));
+      	PROTECT (dim = Rf_allocVector( INTSXP, 3 ));
       	nprotect++;
       	INTEGER (dim)[0] = snx;
       	INTEGER (dim)[1] = sny;
       	INTEGER (dim)[2] = nobj;
       }
       else if (mode==MODE_COLOR) {
-      	PROTECT (dim = allocVector( INTSXP, 4));
+      	PROTECT (dim = Rf_allocVector( INTSXP, 4));
       	nprotect++;
       	INTEGER (dim)[0] = snx;
       	INTEGER (dim)[1] = sny;

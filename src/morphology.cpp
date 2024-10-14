@@ -358,7 +358,7 @@ SEXP morphology (SEXP x, SEXP kernel, SEXP what) {
     validImage(x,0);
     validImage(kernel,0);
     
-    SEXP res = PROTECT( allocVector(TYPEOF(x), XLENGTH(x)) );
+    SEXP res = PROTECT( Rf_allocVector(TYPEOF(x), XLENGTH(x)) );
     DUPLICATE_ATTRIB(res, x);
     
     int operation = INTEGER(what)[0];

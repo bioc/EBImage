@@ -48,7 +48,7 @@ normalize (SEXP x, SEXP separate, SEXP outrange, SEXP inrange) {
   ny = INTEGER (GET_DIM(x))[1];
   nz = getNumberOfFrames(x,0);
   
-  PROTECT( res = allocVector(REALSXP, XLENGTH(x)) );
+  PROTECT( res = Rf_allocVector(REALSXP, XLENGTH(x)) );
   nprotect++;
   DUPLICATE_ATTRIB(res, x);
   

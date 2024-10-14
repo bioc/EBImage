@@ -35,7 +35,7 @@ thresh (SEXP x, SEXP param) {
     dy = (int)( REAL(param)[1] );
     offset = REAL(param)[2];
 
-    PROTECT( res = allocVector(INTSXP, XLENGTH(x)) );
+    PROTECT( res = Rf_allocVector(INTSXP, XLENGTH(x)) );
     DUPLICATE_ATTRIB(res, x);
     
     sizexy = nx * ny;

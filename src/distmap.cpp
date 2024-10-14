@@ -107,7 +107,7 @@ SEXP distmap(SEXP _a, SEXP _metric) {
   vj=(int *)R_Calloc(height,int);
   
   // initialize d, the output distance matrix
-  PROTECT(res = allocVector(REALSXP, XLENGTH(_a)) );
+  PROTECT(res = Rf_allocVector(REALSXP, XLENGTH(_a)) );
   nprotect++;
   DUPLICATE_ATTRIB(res, _a);
   

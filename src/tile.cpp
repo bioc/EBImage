@@ -38,7 +38,7 @@ SEXP tile (SEXP obj, SEXP _hdr, SEXP params) {
   nz = getNumberOfFrames(obj, 1);
   nprotect = 0;
   
-  if ( nz < 1 ) error("no images in stack to tile");
+  if ( nz < 1 ) Rf_error("no images in stack to tile");
   /* get FG and BG colors from supplied header */
   hdr = REAL(_hdr);
   
@@ -48,16 +48,16 @@ SEXP tile (SEXP obj, SEXP _hdr, SEXP params) {
   nyr = lwd + (ny + lwd) * ndy;
   
   /* allocate memory for the image */
-  PROTECT( res = allocVector(REALSXP, nc * nxr * nyr) );
+  PROTECT( res = Rf_allocVector(REALSXP, nc * nxr * nyr) );
   nprotect++;
   DUPLICATE_ATTRIB(res, obj);
   
   // set dimensions
   if (mode!=MODE_COLOR) {
-    PROTECT ( dm = allocVector( INTSXP, 2) );
+    PROTECT ( dm = Rf_allocVector( INTSXP, 2) );
     nprotect++;
   } else {
-    PROTECT ( dm = allocVector( INTSXP, 3) );
+    PROTECT ( dm = Rf_allocVector( INTSXP, 3) );
     nprotect++;
     INTEGER (dm)[2] = nc;
   }
@@ -169,21 +169,21 @@ untile(SEXP img, SEXP nim, SEXP linewd) {
   if (nx<1 || ny<1 || nz <1 || ((nx*ny*nz*nc)>(1024*1024*1024))) {
     if (nc==1) Rprintf("size of the resulting image will be (nx=%d,ny=%d,nz=%d)\n",nx,ny,nz);
     else Rprintf("size of the resulting image will be (nx=%d,ny=%d,nc=%d,nz=%d)\n",nx,ny,nc,nz);
-    error("invalid nx, ny or nz values: negative or too large values");
+    Rf_error("invalid nx, ny or nz values: negative or too large values");
   }
 
-  PROTECT(res = allocVector(TYPEOF(img), nc*nx*ny*nz)); 
+  PROTECT(res = Rf_allocVector(TYPEOF(img), nc*nx*ny*nz));
   nprotect++;
   DUPLICATE_ATTRIB(res, img);
   
   // set dimensions
   if (mode!=MODE_COLOR) {
-    PROTECT(dim = allocVector(INTSXP, 3)); nprotect++;
+    PROTECT(dim = Rf_allocVector(INTSXP, 3)); nprotect++;
     INTEGER(dim)[0] = nx;
     INTEGER(dim)[1] = ny;
     INTEGER(dim)[2] = nz;
   } else {
-    PROTECT(dim = allocVector(INTSXP, 4)); nprotect++;
+    PROTECT(dim = Rf_allocVector(INTSXP, 4)); nprotect++;
     INTEGER(dim)[0] = nx;
     INTEGER(dim)[1] = ny;
     INTEGER(dim)[2] = nc;

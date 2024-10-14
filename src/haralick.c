@@ -27,12 +27,12 @@ haralickMatrix(SEXP obj, SEXP ref, SEXP cgrades) {
 
   if ( INTEGER(GET_DIM(ref))[0] != nx || INTEGER(GET_DIM(ref))[1] != ny ||
        getNumberOfFrames(ref,0) != nz )
-    error( "'ref' image has different size than 'obj'" );
+    Rf_error( "'ref' image has different size than 'obj'" );
 
   nc = INTEGER(cgrades)[0];
-  if ( nc < 2 ) error( "the number of color grades must be larger than 1" );
+  if ( nc < 2 ) Rf_error( "the number of color grades must be larger than 1" );
 
-  PROTECT ( res = allocVector(VECSXP, nz) );
+  PROTECT ( res = Rf_allocVector(VECSXP, nz) );
   nprotect++;
 
   for ( im = 0; im < nz; im++ ) {
@@ -49,12 +49,12 @@ haralickMatrix(SEXP obj, SEXP ref, SEXP cgrades) {
     }
     else no_objects = 0;
     /* create features matrix */
-    SET_VECTOR_ELT( res, im, (cm = allocVector(REALSXP, nobj * nc * nc)) );
+    SET_VECTOR_ELT( res, im, (cm = Rf_allocVector(REALSXP, nobj * nc * nc)) );
     /* initialize feature matrix with 0 */
     cmdata = REAL( cm );
     for ( index = 0; index < nobj * nc * nc; index++ ) cmdata [index] = 0.0;
     /* set dimensions of the feature matrix */
-    PROTECT( dm = allocVector(INTSXP, 3) );
+    PROTECT( dm = Rf_allocVector(INTSXP, 3) );
     nprotect++;
     INTEGER( dm )[0] = nc;
     INTEGER( dm )[1] = nc;
@@ -138,17 +138,17 @@ haralickFeatures ( SEXP cm ) {
   /* n = number of colors, nc, determined by the size of the haralick matrix */
   nc = INTEGER(GET_DIM(cm))[0];
   if ( nc != INTEGER(GET_DIM(cm))[1] || nc < 2 ) 
-    error( "Haralick matrix is not square or too small" );
+    Rf_error( "Haralick matrix is not square or too small" );
   /* return NULL if no objects */
   nobj = INTEGER(GET_DIM(cm))[2];
 
   if ( nobj < 1 ) return R_NilValue;
   /* after all the checks we hope we can collect the results, alloc mem */
-  PROTECT( res = allocVector(REALSXP, nobj * nf) );
+  PROTECT( res = Rf_allocVector(REALSXP, nobj * nf) );
   nprotect++;
   f = REAL(res);
   for ( i = 0; i < nobj * nf; i++ ) f[i] = 0.0;
-  PROTECT( dm = allocVector(INTSXP, 2) );
+  PROTECT( dm = Rf_allocVector(INTSXP, 2) );
   nprotect++;
   INTEGER(dm)[0] = nobj;
   INTEGER(dm)[1] = nf;

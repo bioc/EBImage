@@ -36,7 +36,7 @@ SEXP getFrames (SEXP x, SEXP i, SEXP _type) {
   }
   
   /* allocate memory for frame list */
-  PROTECT ( res = allocVector(VECSXP, n) );
+  PROTECT ( res = Rf_allocVector(VECSXP, n) );
   nprotect++;
   
   /* frame length */
@@ -45,7 +45,7 @@ SEXP getFrames (SEXP x, SEXP i, SEXP _type) {
   /* set frame dimensions */
   nd = ( mode==MODE_COLOR && length(GET_DIM(x))>2 ) ? 3 : 2;
   
-  PROTECT ( dm = allocVector( INTSXP, nd) );
+  PROTECT ( dm = Rf_allocVector( INTSXP, nd) );
   nprotect++;
   
   INTEGER(dm)[0] = nx;
@@ -55,14 +55,14 @@ SEXP getFrames (SEXP x, SEXP i, SEXP _type) {
   
   /* set dimnames */
   if ( GET_DIMNAMES(x) != R_NilValue ) {
-    PROTECT ( dnames = allocVector(VECSXP, nd) );
+    PROTECT ( dnames = Rf_allocVector(VECSXP, nd) );
     nprotect++;   
     
     for (j=0; j<nd; j++)
       SET_VECTOR_ELT(dnames, j, VECTOR_ELT(GET_DIMNAMES(x), j)); 
     
     if ( GET_NAMES(GET_DIMNAMES(x)) != R_NilValue ) {
-      PROTECT ( names = allocVector(STRSXP, nd) );
+      PROTECT ( names = Rf_allocVector(STRSXP, nd) );
       nprotect++;
       
       for (j=0; j<nd; j++)
@@ -75,7 +75,7 @@ SEXP getFrames (SEXP x, SEXP i, SEXP _type) {
   }
   
   for (j=0; j<n; j++) {
-    PROTECT(frame = allocVector(TYPEOF(x), d));
+    PROTECT(frame = Rf_allocVector(TYPEOF(x), d));
     nprotect++;
     
     DUPLICATE_ATTRIB(frame, x);

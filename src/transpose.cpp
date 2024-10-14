@@ -34,12 +34,12 @@ SEXP transpose (SEXP x) {
   
   int nprotect = 0;
   
-  SEXP res = PROTECT( allocVector(TYPEOF(x), XLENGTH(x)) );
+  SEXP res = PROTECT( Rf_allocVector(TYPEOF(x), XLENGTH(x)) );
   nprotect++;
   DUPLICATE_ATTRIB(res, x);
   
   // swap spatial dimensions
-  SEXP dim = PROTECT( duplicate(GET_DIM(x)) );
+  SEXP dim = PROTECT( Rf_duplicate(GET_DIM(x)) );
   nprotect++;
   int * dm = INTEGER(dim);
   
@@ -52,7 +52,7 @@ SEXP transpose (SEXP x) {
   
   // swap dimnames
   if ( GET_DIMNAMES(x) != R_NilValue ) {
-    SEXP dnames = PROTECT( duplicate(GET_DIMNAMES(x)) );
+    SEXP dnames = PROTECT( Rf_duplicate(GET_DIMNAMES(x)) );
     nprotect++;
     SEXP v = PROTECT( VECTOR_ELT(dnames, 0) );
     nprotect++;
@@ -60,7 +60,7 @@ SEXP transpose (SEXP x) {
     SET_VECTOR_ELT(dnames, 1, v); 
     
     if ( GET_NAMES(dnames) != R_NilValue ) {
-      SEXP names = PROTECT( duplicate(GET_NAMES(dnames)) );
+      SEXP names = PROTECT( Rf_duplicate(GET_NAMES(dnames)) );
       nprotect++;
       SEXP s = PROTECT( STRING_ELT(names, 0) );
       nprotect++;

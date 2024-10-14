@@ -29,7 +29,7 @@ SEXP ocontour(SEXP _image) {
   }
  
   // Output result
-  _res = PROTECT(allocVector(VECSXP, nbCells));
+  _res = PROTECT(Rf_allocVector(VECSXP, nbCells));
   nprotect++;
 
   // Temporary vector to store the current oriented contour

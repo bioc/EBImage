@@ -33,7 +33,7 @@ watershed (SEXP x, SEXP _tolerance, SEXP _ext) {
     tolerance = REAL( _tolerance )[0];
     ext = INTEGER( _ext )[0];
 
-    PROTECT( res = allocVector(INTSXP, XLENGTH(x)) );
+    PROTECT( res = Rf_allocVector(INTSXP, XLENGTH(x)) );
     DUPLICATE_ATTRIB(res, x);
     
     int * index = new int[ nx * ny ];

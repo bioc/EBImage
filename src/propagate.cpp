@@ -189,7 +189,7 @@ SEXP propagate(SEXP _x, SEXP _seeds, SEXP _mask, SEXP _lambda) {
   double lambda = REAL(_lambda)[0];
   int nprotect = 0;
 
-  PROTECT( res = allocVector(INTSXP, XLENGTH(_x)) );
+  PROTECT( res = Rf_allocVector(INTSXP, XLENGTH(_x)) );
   nprotect++;
   DUPLICATE_ATTRIB(res, _x);
 
