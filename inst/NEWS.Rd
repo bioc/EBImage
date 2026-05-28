@@ -1,6 +1,16 @@
 \name{EBImage-NEWS}
 \title{News for Package 'EBImage'}
 
+\section{Changes in version 4.56.0}{
+  \subsection{MINOR CHANGES}{
+    \itemize{
+      \item 'rotate()' is now defined as a method for both 'Image' and 'array' 
+      classes, instead of a regular function. This enables the definition of 
+      a 'rotate()' method in other packages while avoiding name clashes.
+      \item the 'image()' generic is no longer defined in EBImage as it is 
+      already defined in the 'graphics' package.
+}
+
 \section{Changes in version 4.22.0}{
   \subsection{BUG FIXES}{
     \itemize{
