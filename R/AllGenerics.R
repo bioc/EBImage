@@ -16,8 +16,9 @@
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-## image IO, display
-setGeneric ("image", function (x, ...) standardGeneric("image") )
+# We do not define a generic for `image()` as it's already a generic
+# in the `graphics` package.
+# See https://github.com/Bioconductor/BiocGenerics/issues/24#issuecomment-4548115193
 
 ## statistics
 setGeneric ("hist", function (x, ...) standardGeneric("hist") )
