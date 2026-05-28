@@ -5,7 +5,7 @@ Encoding: UTF-8
 Author: Andrzej Oleś, Gregoire Pau, Mike Smith, Oleg Sklyar, Wolfgang Huber, with contributions from Joseph Barry and Philip A. Marais
 Maintainer: Andrzej Oleś <andrzej.oles@gmail.com>
 Depends: methods
-Imports: BiocGenerics (>= 0.7.1), graphics, grDevices, stats, abind, tiff, jpeg, png, locfit, fftwtools (>= 0.9-7), utils, htmltools, htmlwidgets, RCurl
+Imports: BiocGenerics (>= 0.59.6), graphics, grDevices, stats, abind, tiff, jpeg, png, locfit, fftwtools (>= 0.9-7), utils, htmltools, htmlwidgets, RCurl
 Suggests: BiocStyle, digest, knitr, rmarkdown, shiny
 Description: EBImage provides general purpose functionality for image processing and analysis. In the context of (high-throughput) microscopy-based cellular assays, EBImage offers tools to segment cells and extract quantitative cellular descriptors. This allows the automation of such tasks using the R programming language and facilitates the use of other tools in the R environment for signal processing, statistical modeling, machine learning and visualization with image data.
 License: LGPL

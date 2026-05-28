@@ -1,6 +1,6 @@
 useDynLib("EBImage", .registration = TRUE, .fixes = "C_")
 
-importFrom("BiocGenerics", "combine", "normalize")
+importFrom("BiocGenerics", "combine", "normalize", "rotate")
 importFrom("methods", "as", "callGeneric", "callNextMethod", "extends", "is", "new", "Ops", "slot", "show", "validObject")
 importFrom("graphics", "abline", "clip", "hist", "hist.default", "image", "image.default", "matplot", "par", "plot", "rasterImage")
 importFrom("grDevices", "as.raster", "col2rgb", "gray", "heat.colors", "rgb")
@@ -43,7 +43,8 @@ S3method(plot, Image)
 export(displayOutput, renderDisplay)
 
 ## spatial transform
-export(resize, rotate)
+export(resize)
+exportMethods(rotate)
 export(flip, flop)
 export(translate)
 export(affine)

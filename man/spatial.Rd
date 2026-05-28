@@ -4,6 +4,8 @@
 \alias{flop}
 \alias{resize}
 \alias{rotate}
+\alias{rotate,Image-method}
+\alias{rotate,array-method}
 \alias{translate}
 \alias{affine}
 

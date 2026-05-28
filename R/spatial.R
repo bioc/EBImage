@@ -39,7 +39,7 @@ affine <- function (x, m, filter = c("bilinear", "none"), output.dim, bg.col = "
 # images are represented in a cooridinate system with the y-axis oriented
 # downwards; therefore we perform "counter-clockwise" rotation, which is
 # equivalent to clockwise rotation in a regular coordinate system
-rotate = function(x, angle, filter = "bilinear", output.dim, output.origin, ...) {
+.rotate = function(x, angle, filter = "bilinear", output.dim, output.origin, ...) {
   ## check arguments
   if ( length(angle)!=1L || !is.numeric(angle) ) stop("'angle' must be a number")
   if ( !missing(output.dim) )
@@ -88,6 +88,9 @@ rotate = function(x, angle, filter = "bilinear", output.dim, output.origin, ...)
   
   affine(x = x, m = m, filter = filter, output.dim = output.dim, ...)
 }
+
+setMethod("rotate", "Image", .rotate)
+setMethod("rotate", "array", .rotate)
 
 translate <- function(x, v, filter = "none", ...) {
   ## check arguments
