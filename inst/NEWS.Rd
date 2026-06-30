@@ -9,6 +9,8 @@
       a 'rotate()' method in other packages while avoiding name clashes.
       \item the 'image()' generic is no longer defined in EBImage as it is 
       already defined in the 'graphics' package.
+    }
+  }
 }
 
 \section{Changes in version 4.22.0}{
