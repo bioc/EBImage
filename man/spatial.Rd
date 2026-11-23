@@ -24,7 +24,7 @@
 \usage{
 flip(x)
 flop(x)
-rotate(x, angle, filter = "bilinear", output.dim, output.origin, ...)
+rotate(x, ...)
 translate(x, v, filter = "none", ...)
 resize(x, w, h, output.dim = c(w, h), output.origin = c(0, 0), antialias = FALSE, ...)
 
@@ -33,7 +33,6 @@ affine(x, m, filter = c("bilinear", "none"), output.dim, bg.col = "black", antia
 
 \arguments{
   \item{x}{An \code{Image} object or an array.}
-  \item{angle}{A numeric specifying the image rotation angle in degrees.}
   \item{v}{A vector of 2 numbers denoting the translation vector in pixels.}
   \item{w, h}{Width and height of the resized image. One of these arguments
     can be missing to enable proportional resizing.}  
@@ -59,7 +58,7 @@ affine(x, m, filter = c("bilinear", "none"), output.dim, bg.col = "black", antia
   
   \code{flop} mirrors \code{x} around the image vertical axis (horizontal reflection).
 
-  \code{rotate} rotates the image clockwise by the given angle around the 
+  \code{rotate} rotates the image clockwise by the given `angle` provided in degrees around the 
   origin specified in \code{output.origin}. If no \code{output.origin} is 
   provided, the result will be centered in a recalculated bounding box unless
   \code{output.dim} is provided.
